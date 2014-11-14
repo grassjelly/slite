@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- This site was created in Webflow. http://www.webflow.com-->
+<!-- Last Published: Wed Jul 23 2014 02:53:49 GMT+0000 (UTC) -->
+<html data-wf-site="53cf1a300afee2752c57c6c9">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0" name="viewport">
+    <meta content="" name="Control IDA-LABS Lighting">
+    <title>NDC IDA LABS</title>
+    <!-- css -->
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/webflow.css">
+    <link rel="stylesheet" type="text/css" href="css/slitesg.webflow.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                families: ["Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic"]
+            }
+        });
+    </script>
+    <script type="text/javascript" src="js/modernizr.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="https://daks2k3a4ib2z.cloudfront.net/placeholder/favicon.ico">
+</head>
+
+<body onload="loadState()">
+	<div class="upper-section">
+				<p>IDA LABS v0.001</>
+        <div class="temperature-exxt">ROOM&nbsp;TEMPERATURE</div>
+        <div class="temperature">22&nbsp;°C</div>
+    </div>
+    <div class="lower-section">
+        <div class="w-clearfix light-block">
+            <div class="lighttext">Lamp</div>
+            <div class="w-embed lightembed">
+                <div class="switch">
+                    <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox" onclick="changeState(1)">
+                    <label for="cmn-toggle-1"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="lower-section">
+        <div class="w-clearfix light-block">
+            <div class="lighttext">Drill</div>
+            <div class="w-embed lightembed">
+                <div class="switch">
+                    <input id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round" type="checkbox" onclick="changeState(2)">
+                    <label for="cmn-toggle-2"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lower-section">
+        <div class="w-clearfix light-block">
+            <div class="lighttext">Soldering Station</div>
+            <div class="w-embed lightembed">
+                <div class="switch">
+                    <input id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round" type="checkbox" onclick="changeState(3)">
+                    <label for="cmn-toggle-3"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lower-section">
+        <div class="w-clearfix light-block">
+            <div class="lighttext">Smoke Exhaust</div>
+            <div class="w-embed lightembed">
+                <div class="switch">
+                    <input id="cmn-toggle-4" class="cmn-toggle cmn-toggle-round" type="checkbox" onclick="changeState(4)">
+                    <label for="cmn-toggle-4"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/webflow.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        var socket = io.connect(); // let socket.io autodiscover the server
+
+
+
+        function changeState(skt) {
+            console.log("hello")
+            socket.emit('triggerSwitch', skt); //send Server to change switch state (on / off)
+        }
+
+
+
+        function loadState() {
+            socket.emit('loadState1', true);
+            socket.on('loadState1', function (loadstate1) {
+                document.getElementById("cmn-toggle-1").checked = loadstate1;
+            });
+            socket.emit('loadState2', true);
+
+            socket.on('loadState2', function (loadstate2) {
+                document.getElementById("cmn-toggle-2").checked = loadstate2;
+            });
+            socket.emit('loadState3', true);
+
+            socket.on('loadState3', function (loadstate3) {
+                document.getElementById("cmn-toggle-3").checked = loadstate3;
+            });
+            socket.emit('loadState4', true);
+
+            socket.on('loadState4', function (loadstate4) {
+                document.getElementById("cmn-toggle-4").checked = loadstate4;
+            });
+        }
+
+
+    </script>
+    <!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+</body>
+
+</html>
